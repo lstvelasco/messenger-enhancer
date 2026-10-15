@@ -1,0 +1,101 @@
+/* =========================================================
+   MESSENGER ENHANCER - STREAMLINED BLOCK-LEVEL RULES
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1. SIDEBAR (LEFT) - PER CHAT ITEM BLUR
+   --------------------------------------------------------- */
+body.privacy-enabled.blur-sidebar [role="gridcell"] span[dir="auto"],
+body.privacy-enabled.blur-sidebar [role="gridcell"] [role="heading"],
+body.privacy-enabled.blur-sidebar [role="gridcell"] img,
+body.privacy-enabled.blur-sidebar [role="gridcell"] svg image {
+  filter: blur(var(--privacy-blur-amount, 8px)) !important;
+  transition: filter 0.15s ease-in-out;
+}
+
+/* ---------------------------------------------------------
+   2. MAIN PANEL (RIGHT) - FULL MESSAGE BLOCK / ROW BLUR
+   --------------------------------------------------------- */
+body.privacy-enabled.blur-main-chat [role="main"] [role="article"],
+body.privacy-enabled.blur-main-chat [role="main"] div[aria-roledescription="message"],
+body.privacy-enabled.blur-main-chat [role="main"] [aria-label*="Pinned Messages Banner"] {
+  filter: blur(var(--privacy-blur-amount, 8px)) !important;
+  transition: filter 0.15s ease-in-out;
+}
+
+body.privacy-enabled.blur-main-chat [role="main"] [role="article"] *,
+body.privacy-enabled.blur-main-chat [role="main"] div[aria-roledescription="message"] * {
+  filter: none !important;
+}
+
+/* ---------------------------------------------------------
+   3. HOVER REVEAL EFFECT (ROW LEVEL)
+   --------------------------------------------------------- */
+body.privacy-enabled.allow-hover.blur-sidebar [role="gridcell"]:hover span[dir="auto"],
+body.privacy-enabled.allow-hover.blur-sidebar [role="gridcell"]:hover [role="heading"],
+body.privacy-enabled.allow-hover.blur-sidebar [role="gridcell"]:hover img,
+body.privacy-enabled.allow-hover.blur-sidebar [role="gridcell"]:hover svg image {
+  filter: blur(0px) !important;
+}
+
+body.privacy-enabled.allow-hover.blur-main-chat [role="main"] [role="article"]:hover,
+body.privacy-enabled.allow-hover.blur-main-chat [role="main"] div[aria-roledescription="message"]:hover,
+body.privacy-enabled.allow-hover.blur-main-chat [role="main"] [aria-label*="Pinned Messages Banner"]:hover {
+  filter: blur(0px) !important;
+}
+
+/* ---------------------------------------------------------
+   4. CUSTOM SELECTIVE UNHIDE (EXACT MATCH FOR HOVER LOGIC)
+   --------------------------------------------------------- */
+/* Left Sidebar Unhide */
+body.privacy-enabled .custom-revealed span[dir="auto"],
+body.privacy-enabled .custom-revealed [role="heading"],
+body.privacy-enabled .custom-revealed img,
+body.privacy-enabled .custom-revealed svg image,
+body.privacy-enabled [role="gridcell"].custom-revealed span[dir="auto"],
+body.privacy-enabled [role="gridcell"].custom-revealed [role="heading"],
+body.privacy-enabled [role="gridcell"].custom-revealed img {
+  filter: blur(0px) !important;
+}
+
+/* Right Main Chat Row Unhide (Pinapatay ang blur sa mismong article row) */
+body.privacy-enabled.blur-main-chat [role="main"] [role="article"].custom-revealed,
+body.privacy-enabled.blur-main-chat [role="main"] div[aria-roledescription="message"].custom-revealed,
+body.privacy-enabled.blur-main-chat [role="main"] [aria-label*="Pinned Messages Banner"].custom-revealed,
+body.privacy-enabled.blur-main-chat [role="main"] [role="article"]:has(.custom-revealed),
+body.privacy-enabled.blur-main-chat [role="main"] div[aria-roledescription="message"]:has(.custom-revealed) {
+  filter: blur(0px) !important;
+}
+
+/* Tinanggal na ang outline at borders para maging malinis at natural */
+.custom-revealed {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------------------------------------------------------
+   5. UI TWEAKS & CLEAN COMPACT MODE
+   --------------------------------------------------------- */
+[role="main"] [role="article"] [dir="auto"] {
+  font-size: var(--chat-font-size, 15px) !important;
+  line-height: 1.35 !important;
+}
+
+body.compact-chat-mode [role="main"] [role="article"] {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+body.compact-chat-mode [role="main"] [role="article"] > div {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+body.hide-typing-indicator [aria-label*="typing"],
+body.hide-typing-indicator [aria-label*="Typing"] {
+  display: none !important;
+}

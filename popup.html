@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        width: 260px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding: 12px 14px;
+        margin: 0;
+        background-color: #222d32;
+        color: #ffffff;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #374850;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+      }
+      .header h2 {
+        font-size: 14px;
+        margin: 0;
+        color: #0084ff;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .version {
+        font-size: 10px;
+        background: #374850;
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: #b8c7ce;
+      }
+      .section-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #8aa4af;
+        margin: 10px 0 6px 0;
+        letter-spacing: 0.5px;
+      }
+      .option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+      .slider-container {
+        margin-top: 6px;
+      }
+      .slider-container label {
+        font-size: 11px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        color: #b8c7ce;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 18px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #4f5b62;
+        transition: 0.25s;
+        border-radius: 20px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 12px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.25s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #00a65a;
+      }
+      input:checked + .slider:before {
+        transform: translateX(16px);
+      }
+      hr {
+        border: 0;
+        height: 1px;
+        background: #374850;
+        margin: 8px 0;
+      }
+
+      .guide-box {
+        background: #1a2226;
+        border: 1px solid #374850;
+        border-radius: 6px;
+        padding: 6px 8px;
+        font-size: 11px;
+        color: #b8c7ce;
+        margin-bottom: 6px;
+      }
+      .guide-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+      }
+      .guide-item:last-child {
+        margin-bottom: 0;
+      }
+      kbd {
+        background: #374850;
+        border: 1px solid #4f5b62;
+        border-radius: 3px;
+        padding: 1px 4px;
+        font-family: monospace;
+        font-size: 9px;
+        color: #ffffff;
+      }
+
+      .links-list {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0 0 0;
+      }
+      .links-list li {
+        margin-bottom: 4px;
+      }
+      .links-list a,
+      .links-list button {
+        color: #b8c7ce;
+        text-decoration: none;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+      }
+      .links-list a:hover,
+      .links-list button:hover {
+        background: #374850;
+        color: #ffffff;
+      }
+      .coffee-btn {
+        background: #ffdd00 !important;
+        color: #000000 !important;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .coffee-btn:hover {
+        background: #f1d000 !important;
+      }
+
+      .btn-reset {
+        width: 100%;
+        padding: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        border: 1px solid #dd4b39;
+        border-radius: 4px;
+        background: transparent;
+        color: #dd4b39;
+        cursor: pointer;
+        margin-top: 6px;
+      }
+      .btn-reset:hover {
+        background: #dd4b39;
+        color: #ffffff;
+      }
+
+      .qr-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 99;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .qr-modal img {
+        width: 180px;
+        border-radius: 8px;
+        border: 2px solid #ffffff;
+        background: #ffffff;
+      }
+      .qr-modal button {
+        margin-top: 10px;
+        background: #dd4b39;
+        color: white;
+        border: none;
+        padding: 5px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h2>⚡ Messenger Enhancer</h2>
+      <span class="version">v1.0.0</span>
+    </div>
+
+    <div class="option">
+      <strong>Master Switch</strong>
+      <label class="switch">
+        <input type="checkbox" id="togglePrivacy" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <hr />
+
+    <div class="section-title">Protection Zones</div>
+
+    <div class="option">
+      <span>Sidebar List (Left)</span>
+      <label class="switch">
+        <input type="checkbox" id="blurSidebar" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="option">
+      <span>Main Messages (Right)</span>
+      <label class="switch">
+        <input type="checkbox" id="blurMainChat" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="option">
+      <span>Hover to Unblur</span>
+      <label class="switch">
+        <input type="checkbox" id="allowHover" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="slider-container">
+      <label for="blurRange">
+        <span>Blur Level</span>
+        <span id="blurVal">8px</span>
+      </label>
+      <input type="range" id="blurRange" min="2" max="16" value="8" />
+    </div>
+
+    <hr />
+
+    <div class="section-title">UI & Stealth Tweaks</div>
+
+    <div class="option">
+      <span>Compact Chat Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="compactMode" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="option">
+      <span>Hide Typing Status</span>
+      <label class="switch">
+        <input type="checkbox" id="hideTyping" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="slider-container">
+      <label for="fontSizeRange">
+        <span>Message Font Size</span>
+        <span id="fontVal">15px</span>
+      </label>
+      <input type="range" id="fontSizeRange" min="12" max="20" value="15" />
+    </div>
+
+    <hr />
+
+    <div class="section-title">Screenshot Helper</div>
+    <div class="guide-box">
+      <div class="guide-item">
+        <span>Pin/Unhide Row</span><kbd>Ctrl + Click</kbd>
+      </div>
+      <div class="guide-item"><span>Reset Blurs</span><kbd>Esc Key</kbd></div>
+    </div>
+
+    <ul class="links-list">
+      <li>
+        <a
+          href="https://github.com/lstvelasco/messenger-enhancer"
+          target="_blank"
+        >
+          ⭐ Star on GitHub
+        </a>
+      </li>
+      <li>
+        <a href="https://velascode.com" target="_blank">
+          👨‍💻 Developer Website
+        </a>
+      </li>
+      <li>
+        <button id="btn-show-qr">📱 InstaPay / GCash QR</button>
+      </li>
+      <li>
+        <a
+          href="https://buymeacoffee.com/lstvelasco4"
+          target="_blank"
+          class="coffee-btn"
+        >
+          ☕ Buy Me a Coffee
+        </a>
+      </li>
+    </ul>
+
+    <button class="btn-reset" id="resetDefaults">🔄 Reset Settings</button>
+
+    <div id="qr-modal" class="qr-modal">
+      <img src="assets/instapay-qr.png" alt="InstaPay / GCash QR Code" />
+      <button id="btn-close-qr">Close</button>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

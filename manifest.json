@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "Messenger Enhancer & Privacy Guard",
+  "version": "1.0.0",
+  "description": "Privacy blur, formatting shortcuts, text utilities, UI tweaks, and stealth mode for Facebook Messenger.",
+  "permissions": [
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "https://*.messenger.com/*",
+    "https://*.facebook.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.messenger.com/*",
+        "https://*.facebook.com/*"
+      ],
+      "css": ["style.css"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "stealth_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["welcome.html", "assets/instapay-qr.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
